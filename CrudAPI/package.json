@@ -22,7 +22,12 @@
     "lodash": "^3.10.1",
     "rc": "~0.5.0",
     "sails": "~0.11.0",
-    "sails-disk": "~0.10.0"
+    "sails-disk": "~0.10.0",
+    "jsonwebtoken": "*",
+    "bcrypt-nodejs": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "passport-local": "*"
   },
   "scripts": {
     "debug": "node debug app.js",

@@ -104,6 +104,8 @@
 '''
     - should get a json response
     - post below to http://localhost:1337/auth/signin
+    - see README_restAPI.txt for postman type manual test
+- See https://github.com/eswann/nozus-web/
 - The End
 
 
