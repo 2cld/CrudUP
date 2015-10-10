@@ -1,20 +1,40 @@
-# CrudUp
+# CrudUP
 ## Demo Fireup
-- Start Term -> Window -> Open Window Group -> CrudUpDemo
-- CrudUp tab
+- Start Term -> Window -> Open Window Group -> CrudUPDemo
+- CrudUP tab
     - This README.md
 - CrudAPI tab
-    - cd CrudUp/CrudAPI (should be up in Group)
+    - cd CrudUP/CrudAPI (should be up in Group)
     - sails lift
 - CrudUI tab
-    - cd CrudUp/CrudUI (should be up in Group)
+    - cd CrudUP/CrudUI (should be up in Group)
 	- gulp serve-dev
 - Selenium tab
-    - cd CrudUp/CrudQA (should be up in Group)
+    - cd CrudUP/CrudQA (should be up in Group)
 	- ./node_modules/.bin/webdriver-manager start
 - CrudMink tab
-    - cd CrudUp/CrudMink (should be up in Group)
+    - cd CrudUP/CrudMink (should be up in Group)
     - npm test
+    
+## Repo Fireup
+- Assumed: in ~/Code
+- git clone https://github.com/christrees/CrudUP.git
+- cd ~/Code/CrudUP/CrudAPI
+    - npm install
+    - sails lift
+    - browse to: http://localhost:1337/customer should see json but with no results
+- cd ~/Code/CrudUP/CrudUI
+    - npm install
+    - gulp serve-dev
+    - This should spin up browser with CRUD ui for customers http://localhost:3000/customer
+- cd ~/Code/CrudUP/CrudQA
+    - npm install
+    - ./node_modules/.bin/webdriver-manager update
+    - ./node_modules/.bin/webdriver-manager start
+- cd ~/Code/CrudUP/CrudQA
+    - npm test
+    - This should spin up chrome and preforme the feature test and add a customer
+    - http://localhost:3000/customer shold have
 
 ## From Scratch
 - https://github.com/jlmonteagudo/generator-angular-crud
@@ -45,7 +65,47 @@
 
 ## Add JWT to 'From Scratch'
 - https://ericswann.wordpress.com/2015/04/24/nozus-js-1-intro-to-sails-with-passport-and-jwt-json-web-token-auth/
-- 
+- add to CrudAPI/package.json
+    - jsonwebtoken
+    - bcrypt-nodejs
+    - passport
+    - passport-jwt
+    - passport-local
+- npm install
+- add CrudAPI/config/passport.js file (passport configs)
+- add CrudAPI/api/services/CipherService.js (hash and token stuff)
+- Create User API
+    - sails generate api User
+    - Modify CrudAPI/api/models/User.js to add toJSON function and beforeUpdate, beforeCreate
+- Create Auth Controller
+    - sails generate controller Auth
+    - Modify CrudAPI/api/controllers/Auth.js to add signup and signin fuctions
+- Create isAuthenticated in Policies
+    - Add CrudAPI/api/policies/isAuthenticated.js
+    - This enforces using the jwt strategy and add the token to the request
+    - Modify CrudAPI/api/policies/policies.js to use isAuthenticated function
+- Create Responses
+    - Add CrudAPI/api/responses/created.js
+    - Add CrudAPI/api/responses/unauthorized.js
+- Blueprints ?? overridden ??
+    - https://github.com/eswann/Nozus.Web.Api
+- Cleanup...
+    - add migrate: 'drop' to CrudAPI/config/models.js (so we have clean db)
+    - set "hooks":{"grunt":false}} in CrudAPI/.sailssrc
+- TEST
+    - sails lift
+    - post below to http://localhost:1337/auth/signup
+'''
+{
+ "username":"testdude",
+ "email":"test1@test.com",
+ "password":"testdude"
+}
+'''
+    - should get a json response
+    - post below to http://localhost:1337/auth/signin
+- The End
+
 
 ## The Stack
 - web
